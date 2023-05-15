@@ -1,8 +1,8 @@
-import pygame
+import pygame, random
 
 pygame.init()
 
-window_width = 800
+window_width = 600
 window_height = 600
 win = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("POOP (python object oriented programming)")
@@ -25,15 +25,47 @@ class Human(object):
         self.vel = 10
         self.color = color
         
+    def hit(self,win):
+        print('hit')
+    
+class Dodge(object):
+    def __init__(self,width,height):
+        dio = random.randint(1,4)
+        if dio == 1:
+            self.x = random.randint(10,590)
+            self.y = 590
+            self.facing = 1
+            
+        elif dio == 2:
+            self.x = 590
+            self.y = random.randint(10,590)
+            self.facing = 2
+            
+        elif dio == 3:
+            self.x = random.randint(5,590)
+            self.y = 10
+            self.facing = 3
+            
+        elif dio == 4:
+            self.x = 10
+            self.y = random.randint(10,590)
+            self.facing = 4
+            
+        self.width = width
+        self.height = height
+        self.vel = 5
+        
     def draw(self,win):
-        pass
+        pygame.draw.rect(win, black, (self.x, self.y, self.width, self.height))
+
         
         
 good = True
 grodd = Human(50,50,50,50,black)
-font1 = pygame.font.SysFont('timesnewroman', 30)
+loop = []
+font1 = pygame.font.SysFont('timesnewroman', 20)
 text = font1.render('Press keys to do random things!', 1, (255, 255, 255))
-win.blit(text, (400 - (text.get_width()/2), 100))
+win.blit(text, (300 - (text.get_width()/2), 100))
 pygame.display.update()
 i = 0
 while i < 200:
@@ -52,6 +84,40 @@ while good == True:
             good = False
             
     pygame.draw.rect(win,grodd.color,(grodd.x,grodd.y,grodd.width,grodd.height))
+    for loops in loop:
+        loops.draw(win)
+        if loops.facing == 1:
+            if loops.y > 0:
+                loops.y -= loops.vel
+            
+            else:
+                loop.pop(loop.index(loops))
+            
+        elif loops.facing == 2:
+            if loops.x > 0:
+                loops.x -= loops.vel
+                
+            else:
+                loop.pop(loop.index(loops))
+            
+        elif loops.facing == 3:
+            if loops.y < 600:
+                loops.y += loops.vel
+                
+            else:
+                loop.pop(loop.index(loops))
+            
+        elif loops.facing == 4:
+            if loops.x < 600:
+                loops.x += loops.vel
+                
+            else:
+                loop.pop(loop.index(loops))
+                
+        if man.hitbox[1] < goblin.hitbox[1] + goblin.hitbox[3] and man.hitbox[1] + man.hitbox[3] > goblin.hitbox[1]:
+            
+            if man.hitbox[0] + man.hitbox[2] > goblin.hitbox[0] and man.hitbox[0] < goblin.hitbox[0] + goblin.hitbox[2]:
+                man.hit()
     
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and grodd.x > grodd.vel:
@@ -112,6 +178,10 @@ while good == True:
         
     if keys[pygame.K_x]:
         break
+    
+    if keys[pygame.K_v] and len(loop) < 5:
+        loop.append(Dodge(5,5))
+        
     
     pygame.display.update()
     
