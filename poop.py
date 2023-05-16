@@ -1,4 +1,4 @@
-import pygame, random, time
+import pygame, random
 
 pygame.init()
 
@@ -30,6 +30,30 @@ class Human(object):
         win.fill(bg)
         pygame.time.delay(100)
         print('hit')
+        
+    def rave(self,win):
+        i = 0
+        while i < 200:
+            
+            i += 1
+            fro = random.randint(1,3)
+            if fro == 1:
+                bg = red
+                win.fill(bg)
+                
+            elif fro == 2:
+                bg = blue
+                win.fill(bg)
+                
+            elif fro == 3:
+                bg = green
+                win.fill(bg)
+                
+            pygame.time.delay(10)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    i = 301
+                    pygame.quit()
         
     
 class Dodge(object):
@@ -91,7 +115,7 @@ text1 = font1.render('(ignore blue thing)', 1, (255, 255, 255))
 win.blit(text1, (300 - (text.get_width()/2), 200))
 pygame.display.update()
 i = 0
-while i < 200:
+while i < 50:
     pygame.time.delay(10)
     i += 1
     for event in pygame.event.get():
@@ -216,7 +240,16 @@ while good == True:
     if keys[pygame.K_j]:
         bg = green
         
+    if keys[pygame.K_m]:
+        grodd.rave(win)
+        
     
     pygame.display.update()
     
 pygame.quit()
+
+# 1. OOP allows someone to do multiple things at once very easily, especially in a while loop. It also allows you to have things with behaviors which can be easily controlled and replicated.
+# 2. 2. In procedural coding, I probably would use list elements, then change list elements in a while loop according to input, and then run definitions based on what the list element is. In
+# other words, it would be extremely backwards and annoying without the new tools at my disposal
+# 3. OOP is very good for big programs that require a lot of input and make a lot of output. 
+# 4. It requires a lot more effort and thinking about how everything works. Online tools DEFENITELY recommended.
